@@ -21,6 +21,9 @@ jobs:
       - name: Checkout Files from repo
         uses: actions/checkout@v3
 
+      - name: List Workspace folder
+        run: ls /
+
       - name: Setup Data
         run: |
           mysql -u root  -h127.0.0.1 mysql < schema.sql
