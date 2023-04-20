@@ -30,6 +30,7 @@ jobs:
         run: |
           mysql -u root  -h127.0.0.1 mysql < schema.sql
           mysql -u root  -h127.0.0.1 mysql < data.sql
+          mysql -u root  -h127.0.0.1 mysql < sp.sql
 
       - name: Run tests
         run: |
@@ -40,6 +41,10 @@ jobs:
             echo "Tests failed. Aborting deployment."
             exit 1
           fi
+
+      - name: Insert using SP
+        run: |
+          mysql -u root  -h127.0.0.1 mysql -se 'CALL sp_insert("Joey Tribianni","jtribianni@friends.com")'
 
       - name: Run Test using Shell
         run: bash test.sh
