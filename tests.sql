@@ -5,3 +5,4 @@ SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'mysql' AND 
 SELECT COUNT(*) FROM users WHERE name = 'Rachel Green';
 SELECT COUNT(*) FROM users WHERE name = 'Ross Geller';
 SELECT COUNT(*) FROM users WHERE name = 'Monica Geller';
+select * from users;
