@@ -7,13 +7,29 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    env:
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
     services:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: Sup3rS3cr3t
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_DATABASE: mysql
         ports: ['3306:3306']
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: setup mysql
+        uses: mysql-action/mysql@v2
+        with:
+          sql-files: schema.sql, data.sql
+
+      - name: Run tests
+        run: |
+          mysql -u root -p${MYSQL_ROOT_PASSWORD} myapp_test < tests.sql
+          # Check the output of tests and fail the build if necessary
+          if [ $? -ne 0 ]; then
+            echo "Tests failed. Aborting deployment."
+            exit 1
+          fi
