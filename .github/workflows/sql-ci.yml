@@ -18,10 +18,6 @@ jobs:
       - name: Verify MySQL Installation
         run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
     
-  Create-schema:
-    needs: Setup
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout Files from repo
         uses: actions/checkout@v3
 
