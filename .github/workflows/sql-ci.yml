@@ -22,8 +22,8 @@ jobs:
 
       - name: setup mysql
         run: |
-          mysql -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD} mysql < schema.sql
-          mysql -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD} mysql < data.sql
+          mysql -h localhost -u root -p${MYSQL_ROOT_PASSWORD} mysql < schema.sql
+          mysql -h localhost -u root -p${MYSQL_ROOT_PASSWORD} mysql < data.sql
 
       - name: Run tests
         run: |
