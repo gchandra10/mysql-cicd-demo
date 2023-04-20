@@ -5,23 +5,26 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  Setup:
     runs-on: ubuntu-latest
     env:
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-    # services:
-    #   mysql:
-    #     image: mysql:latest
-    #     env:
-    #       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-    #       MYSQL_DATABASE: mysql
-    #     ports: ['3306:3306']
     steps:
-      - uses: actions/checkout@v3
-      - uses: shogo82148/actions-setup-mysql@v1
+      - name: Checkout Files from repo
+        uses: actions/checkout@v3
+
+      - name: Install MySQL
+        uses: shogo82148/actions-setup-mysql@v1
         with:
           mysql-version: '8.0'
-      - run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
+
+      - name: Verify MySQL Installation
+        run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
+    
+  Create-schema:
+    needs: Setup
+    runs-on: ubuntu-latest
+    steps:
       - name: Setup Data
         run: |
           mysql -u root  -h127.0.0.1 mysql < schema.sql
@@ -35,32 +38,4 @@ jobs:
           if [ $? -ne 0 ]; then
             echo "Tests failed. Aborting deployment."
             exit 1
-          fi
-
-      # - name: Shutdown Ubuntu MySQL (SUDO)
-      #   run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
-
-      # - name: Set up MySQL
-      #   uses: mirromutth/mysql-action@v1.1
-      #   with:
-      #     host port: 3306
-      #     mysql version: latest
-      #     mysql root password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-      #     mysql database: mysql
-
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
-
-      # - name: setup mysql
-      #   run: |
-      #     mysql -h localhost -u root -p${MYSQL_ROOT_PASSWORD} mysql < schema.sql
-      #     mysql -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD} mysql < data.sql
-
-      # - name: Run tests
-      #   run: |
-      #     mysql -u root -p${MYSQL_ROOT_PASSWORD} myapp_test < tests.sql
-      #     # Check the output of tests and fail the build if necessary
-      #     if [ $? -ne 0 ]; then
-      #       echo "Tests failed. Aborting deployment."
-      #       exit 1
-      #     fi
+          fi  
