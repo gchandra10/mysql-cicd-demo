@@ -22,8 +22,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: List Workspace folder
-        run: ls
-
+        run: |
+            pwd
+            ls
+            
       - name: Setup Data
         run: |
           mysql -u root  -h127.0.0.1 mysql < schema.sql
