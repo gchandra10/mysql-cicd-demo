@@ -21,9 +21,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: setup mysql
-        uses: mysql-action/mysql@v2
-        with:
-          sql-files: schema.sql, data.sql
+        run: |
+          mysql -u root -p${MYSQL_ROOT_PASSWORD} myapp_test < schema.sql
+          mysql -u root -p${MYSQL_ROOT_PASSWORD} myapp_test < data.sql
 
       - name: Run tests
         run: |
