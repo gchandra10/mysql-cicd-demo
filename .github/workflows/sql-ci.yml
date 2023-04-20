@@ -9,21 +9,29 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: mysql
-        ports: ['3306:3306']
+    # services:
+    #   mysql:
+    #     image: mysql:latest
+    #     env:
+    #       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+    #       MYSQL_DATABASE: mysql
+    #     ports: ['3306:3306']
     steps:
+      - name: Set up MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          mysql version: latest
+          mysql root password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          mysql database: mysql
+
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: setup mysql
         run: |
-          mysql -h localhost -u root -p${MYSQL_ROOT_PASSWORD} mysql < schema.sql
-          mysql -h localhost -u root -p${MYSQL_ROOT_PASSWORD} mysql < data.sql
+          mysql -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD} mysql < schema.sql
+          mysql -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD} mysql < data.sql
 
       - name: Run tests
         run: |
