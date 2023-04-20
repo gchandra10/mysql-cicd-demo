@@ -1,0 +1,19 @@
+name: sql-ci
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: Sup3rS3cr3t
+          MYSQL_DATABASE: mysql
+        ports: ['3306:3306']
+    steps:
+      - uses: actions/checkout@v2
