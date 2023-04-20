@@ -10,9 +10,6 @@ jobs:
     env:
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
     steps:
-      - name: Checkout Files from repo
-        uses: actions/checkout@v3
-
       - name: Install MySQL
         uses: shogo82148/actions-setup-mysql@v1
         with:
@@ -25,6 +22,9 @@ jobs:
     needs: Setup
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Files from repo
+        uses: actions/checkout@v3
+
       - name: Setup Data
         run: |
           mysql -u root  -h127.0.0.1 mysql < schema.sql
