@@ -3,7 +3,7 @@
 # Run the MySQL query and store the count in a variable
 count=$(mysql -u root  -h127.0.0.1 mysql -se "SELECT count(*) FROM users WHERE name = 'John Doe'")
 
-count1=$(echo "SELECT count(*) FROM users WHERE name = 'John Doe'" | mysql -u root  -h127.0.0.1 mysql)
+count1=$(echo "SELECT count(*) FROM users WHERE name = 'John Doe'" | mysql -u root  -h127.0.0.1 mysql -s)
 
 echo "Row Count $count - $count1"
 
