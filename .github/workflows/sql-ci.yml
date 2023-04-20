@@ -29,7 +29,7 @@ jobs:
 
       - name: Run tests
         run: |
-          mysql -u root  -h127.0.0.1 < tests.sql
+          mysql -u root  -h127.0.0.1 mysql < tests.sql
 
           # Check the output of tests and fail the build if necessary
           if [ $? -ne 0 ]; then
