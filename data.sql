@@ -1,4 +1,4 @@
 INSERT INTO `users` (`name`, `email`, `created_at`) VALUES
-('John Doe', 'johndoe@example.com', NOW()),
-('Jane Doe', 'janedoe@example.com', NOW()),
-('Bob Smith', 'bobsmith@example.com', NOW());
+('Rachel Green', 'rgreen@friends.com', NOW()),
+('Ross Geller', 'rgeller@friends.com', NOW()),
+('Monica Geller', 'mgeller@friends.com', NOW());
